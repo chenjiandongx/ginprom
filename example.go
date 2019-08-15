@@ -16,7 +16,7 @@ func init() {
 }
 
 func zzZ() {
-	time.Sleep(time.Millisecond * time.Duration(rand.Int()%1000))
+	time.Sleep(time.Millisecond * time.Duration(rand.Int()%1200))
 }
 
 func flood() {
@@ -24,7 +24,7 @@ func flood() {
 	for {
 		u := fmt.Sprintf("http://localhost:4433%s", endpoints[rand.Int()%4])
 		if _, err := http.Get(u); err != nil {
-			log.Println("Never mind.")
+			log.Printf("request error: %v", err)
 		}
 	}
 }
