@@ -17,15 +17,15 @@ var (
 	reqCount = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Namespace: namespace,
-			Name:      "request_count_total",
+			Name:      "http_request_count_total",
 			Help:      "Total number of HTTP requests made.",
 		}, labels,
 	)
 
-	reqDuration = prometheus.NewSummaryVec(
-		prometheus.SummaryOpts{
+	reqDuration = prometheus.NewHistogramVec(
+		prometheus.HistogramOpts{
 			Namespace: namespace,
-			Name:      "request_duration_seconds",
+			Name:      "http_request_duration_seconds",
 			Help:      "HTTP request latencies in seconds.",
 		}, labels,
 	)
@@ -33,7 +33,7 @@ var (
 	reqSizeBytes = prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
 			Namespace: namespace,
-			Name:      "request_size_bytes",
+			Name:      "http_request_size_bytes",
 			Help:      "HTTP request sizes in bytes.",
 		}, labels,
 	)
@@ -41,7 +41,7 @@ var (
 	respSizeBytes = prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
 			Namespace: namespace,
-			Name:      "response_size_bytes",
+			Name:      "http_response_size_bytes",
 			Help:      "HTTP request sizes in bytes.",
 		}, labels,
 	)
