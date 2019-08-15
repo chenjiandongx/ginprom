@@ -94,7 +94,7 @@ func PromMiddleware() gin.HandlerFunc {
 	}
 }
 
-func PromHandler(handler http.Handler)  gin.HandlerFunc{
+func PromHandler(handler http.Handler) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		handler.ServeHTTP(c.Writer, c.Request)
 	}

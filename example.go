@@ -8,7 +8,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-
 func run() {
 	r := gin.Default()
 	r.Use(PromMiddleware())
