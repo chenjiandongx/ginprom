@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-resty/resty"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -23,9 +22,8 @@ func zzZ() {
 func flood() {
 	endpoints := []string{"/", "/index", "/forbidden", "/badreq"}
 	for {
-		_, err := resty.R().
-			Get(fmt.Sprintf("http://localhost:4433%s", endpoints[rand.Int()%4]))
-		if err != nil {
+		u := fmt.Sprintf("http://localhost:4433%s", endpoints[rand.Int()%4])
+		if _, err := http.Get(u); err != nil {
 			log.Println("Never mind.")
 		}
 	}
