@@ -12,7 +12,7 @@ import (
 const namespace = "service"
 
 var (
-	labels = []string{"status", "endpoint", "method", "handler"}
+	labels = []string{"status", "endpoint", "method"}
 
 	reqCount = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
@@ -85,7 +85,6 @@ func PromMiddleware() gin.HandlerFunc {
 			fmt.Sprintf("%d", c.Writer.Status()),
 			c.Request.URL.Path,
 			c.Request.Method,
-			c.HandlerName(),
 		}
 
 		reqCount.WithLabelValues(lvs...).Inc()
