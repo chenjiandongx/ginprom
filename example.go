@@ -16,15 +16,20 @@ func init() {
 }
 
 func zzZ() {
-	time.Sleep(time.Millisecond * time.Duration(rand.Int()%1200))
+	time.Sleep(time.Millisecond * time.Duration(rand.Int()%1250))
 }
 
-func flood() {
+func floodRequest() {
+	// reused client object
+	client := &http.Client{}
 	endpoints := []string{"/", "/index", "/forbidden", "/badreq"}
 	for {
 		u := fmt.Sprintf("http://localhost:4433%s", endpoints[rand.Int()%4])
-		if _, err := http.Get(u); err != nil {
+		req, _ := http.NewRequest(http.MethodGet, u, nil)
+		if _, err := client.Do(req); err != nil {
 			log.Printf("request error: %v", err)
+			// something wrong, zzZ...
+			zzZ()
 		}
 	}
 }
@@ -63,7 +68,7 @@ func main() {
 		})
 	})
 
-	go flood()
+	go floodRequest()
 
 	if err := r.Run(":4433"); err != nil {
 		log.Fatalf("run server error: %v", err)
