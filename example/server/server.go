@@ -1,12 +1,12 @@
-package ginprom
+package main
 
 import (
-	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
 	"time"
 
+	"github.com/chenjiandongx/ginprom"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -16,29 +16,14 @@ func init() {
 }
 
 func zzZ() {
-	time.Sleep(time.Millisecond * time.Duration(rand.Int()%1250))
-}
-
-func floodRequest() {
-	// reused client object
-	client := &http.Client{}
-	endpoints := []string{"/", "/index", "/forbidden", "/badreq"}
-	for {
-		u := fmt.Sprintf("http://localhost:4433%s", endpoints[rand.Int()%4])
-		req, _ := http.NewRequest(http.MethodGet, u, nil)
-		if _, err := client.Do(req); err != nil {
-			log.Printf("request error: %v", err)
-			// something wrong, zzZ...
-		}
-		zzZ()
-	}
+	time.Sleep(time.Millisecond * time.Duration(rand.Int()%1000))
 }
 
 func main() {
 	r := gin.Default()
-	r.Use(PromMiddleware())
+	r.Use(ginprom.PromMiddleware())
 
-	r.GET("/metrics", PromHandler(promhttp.Handler()))
+	r.GET("/metrics", ginprom.PromHandler(promhttp.Handler()))
 
 	r.GET("/", func(c *gin.Context) {
 		zzZ()
@@ -67,8 +52,6 @@ func main() {
 			"message": "badreq",
 		})
 	})
-
-	go floodRequest()
 
 	if err := r.Run(":4433"); err != nil {
 		log.Fatalf("run server error: %v", err)
