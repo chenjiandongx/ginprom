@@ -29,8 +29,8 @@ func floodRequest() {
 		if _, err := client.Do(req); err != nil {
 			log.Printf("request error: %v", err)
 			// something wrong, zzZ...
-			zzZ()
 		}
+		zzZ()
 	}
 }
 
