@@ -35,6 +35,18 @@ func main() {
 }
 ```
 
+### 🎉 Metrics
+
+Details about exposed Prometheus metrics.
+
+| Name | Exposed informations |
+| ---- | ---------------------|
+| service_http_request_count_total | Total number of HTTP requests made. |
+| service_http_request_duration_seconds | HTTP request latencies in seconds. |
+| service_http_request_size_bytes | HTTP request sizes in bytes. |
+| service_http_response_size_bytes | HTTP request sizes in bytes. |
+
+
 ### 📊 Grafana
 
 Although Promethues offers a simple dashboard, Grafana is clearly a better choice. [Grafana configuration](./ginprom-service.json).
