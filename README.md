@@ -39,12 +39,12 @@ func main() {
 
 Details about exposed Prometheus metrics.
 
-| Name | Exposed informations |
-| ---- | ---------------------|
-| service_http_request_count_total | Total number of HTTP requests made. |
-| service_http_request_duration_seconds | HTTP request latencies in seconds. |
-| service_http_request_size_bytes | HTTP request sizes in bytes. |
-| service_http_response_size_bytes | HTTP request sizes in bytes. |
+| Name | Type | Exposed informations |
+| ---- | ---- | ---------------------|
+| service_http_request_count_total | Counter | Total number of HTTP requests made. |
+| service_http_request_duration_seconds | Histogram | HTTP request latencies in seconds. |
+| service_http_request_size_bytes | Summary | HTTP request sizes in bytes. |
+| service_http_response_size_bytes | Summary |HTTP request sizes in bytes. |
 
 
 ### 📊 Grafana
