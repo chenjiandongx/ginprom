@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 10,
-  "iteration": 1565887694756,
+  "id": 7,
+  "iteration": 1566205031468,
   "links": [],
   "panels": [
     {
@@ -45,7 +45,8 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -130,7 +131,8 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -197,7 +199,7 @@
       "datasource": "$datasource",
       "fill": 1,
       "gridPos": {
-        "h": 9,
+        "h": 11,
         "w": 12,
         "x": 0,
         "y": 11
@@ -215,7 +217,8 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -283,7 +286,7 @@
       "description": "",
       "fill": 1,
       "gridPos": {
-        "h": 9,
+        "h": 11,
         "w": 12,
         "x": 12,
         "y": 11
@@ -301,7 +304,8 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -368,10 +372,10 @@
       "datasource": "$datasource",
       "fill": 1,
       "gridPos": {
-        "h": 10,
+        "h": 12,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 22
       },
       "id": 10,
       "legend": {
@@ -386,7 +390,8 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -449,14 +454,16 @@
   "refresh": false,
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "Service"
+  ],
   "templating": {
     "list": [
       {
         "allValue": null,
         "current": {
-          "text": "ginprom",
-          "value": "ginprom"
+          "text": "",
+          "value": ""
         },
         "datasource": "$datasource",
         "definition": "label_values(service_http_request_count_total, job)",
@@ -640,8 +647,9 @@
       {
         "allValue": null,
         "current": {
-          "text": "0.25",
-          "value": "0.25"
+          "tags": [],
+          "text": "0.95",
+          "value": "0.95"
         },
         "hide": 0,
         "includeAll": false,
@@ -650,7 +658,7 @@
         "name": "quantile",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "0.95",
             "value": "0.95"
           },
@@ -660,7 +668,7 @@
             "value": "0.75"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "0.25",
             "value": "0.25"
           }
@@ -702,5 +710,5 @@
   "timezone": "browser",
   "title": "Prometheus Service",
   "uid": "EyaoypOZz",
-  "version": 1
+  "version": 4
 }
