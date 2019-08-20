@@ -3,6 +3,7 @@ package ginprom
 import (
 	"fmt"
 	"net/http"
+	"regexp"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -47,10 +48,12 @@ var (
 	)
 )
 
+// init registers the prometheus metrics
 func init() {
 	prometheus.MustRegister(reqCount, reqDuration, reqSizeBytes, respSizeBytes)
 }
 
+// calcRequestSize returns the size of request object.
 func calcRequestSize(r *http.Request) float64 {
 	size := 0
 	if r.URL != nil {
@@ -75,16 +78,53 @@ func calcRequestSize(r *http.Request) float64 {
 	return float64(size)
 }
 
-func PromMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
+// PromOpts represents the Prometheus middleware Options.
+// It was used for filtering labels with regex.
+type PromOpts struct {
+	ExcludeRegexStatus   string
+	ExcludeRegexEndpoint string
+	ExcludeRegexMethod   string
+}
 
+var defaultPromOpts = &PromOpts{}
+
+// checkLabel returns the match result of labels.
+// Return true if regex-pattern compiles failed.
+func (po *PromOpts) checkLabel(label, pattern string) bool {
+	if pattern == "" {
+		return true
+	}
+
+	matched, err := regexp.MatchString(label, po.ExcludeRegexEndpoint)
+	if err != nil {
+		return true
+	}
+	return !matched
+}
+
+// PromMiddleware returns a gin.HandlerFunc for exporting some Web metrics
+func PromMiddleware(promOpts *PromOpts) gin.HandlerFunc {
+	// make sure promOpts is not nil
+	if promOpts == nil {
+		promOpts = defaultPromOpts
+	}
+
+	return func(c *gin.Context) {
 		start := time.Now()
 		c.Next()
 
-		lvs := []string{
-			fmt.Sprintf("%d", c.Writer.Status()),
-			c.Request.URL.Path,
-			c.Request.Method,
+		status := fmt.Sprintf("%d", c.Writer.Status())
+		endpoint := c.Request.URL.Path
+		method := c.Request.Method
+
+		lvs := []string{status, endpoint, method}
+
+		isOk := promOpts.checkLabel(status, promOpts.ExcludeRegexStatus) &&
+			promOpts.checkLabel(endpoint, promOpts.ExcludeRegexEndpoint) &&
+			promOpts.checkLabel(method, promOpts.ExcludeRegexMethod)
+
+		if !isOk {
+			return
 		}
 
 		reqCount.WithLabelValues(lvs...).Inc()
@@ -94,6 +134,7 @@ func PromMiddleware() gin.HandlerFunc {
 	}
 }
 
+// PromHandler wrappers the standard http.Handler to gin.HandlerFunc
 func PromHandler(handler http.Handler) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		handler.ServeHTTP(c.Writer, c.Request)

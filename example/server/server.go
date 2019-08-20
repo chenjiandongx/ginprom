@@ -21,7 +21,7 @@ func zzZ() {
 
 func main() {
 	r := gin.Default()
-	r.Use(ginprom.PromMiddleware())
+	r.Use(ginprom.PromMiddleware(nil))
 
 	r.GET("/metrics", ginprom.PromHandler(promhttp.Handler()))
 

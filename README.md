@@ -22,8 +22,15 @@ import (
 
 func main() {
     r := gin.Default()
-    // use prometheus metrics exporter middleware.
-	r.Use(ginprom.PromMiddleware())
+	// use prometheus metrics exporter middleware.
+	// ginprom.PromMiddleware() expects a ginprom.PromOpts{} poniter. It was used for filtering labels with regex.
+	// ginprom labels: `status`, `endpoint`, `method`
+	// for example:
+	// 1). I want not to record the 404 status request. That's easy for it.
+	// ginprom.PromMiddleware(&ginprom.PromOpts{ExcludeRegexStatus: "404"})
+	// 2). I want not to record the endpoint start with /stupid.
+	// ginprom.PromMiddleware(&ginprom.PromOpts{ExcludeRegexEndpoint: "^/stupid"})
+	r.Use(ginprom.PromMiddleware(nil))
 
     // register the `/metrices` route.
 	r.GET("/metrics", ginprom.PromHandler(promhttp.Handler()))
