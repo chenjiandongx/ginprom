@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 7,
-  "iteration": 1566205031468,
+  "iteration": 1566368184574,
   "links": [],
   "panels": [
     {
@@ -57,7 +57,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(service_http_request_count_total{endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
+          "expr": "rate(service_http_request_count_total{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ endpoint }}",
@@ -143,7 +143,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(service_http_request_duration_seconds_sum{endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])\r\n/\r\nrate(service_http_request_duration_seconds_count{endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
+          "expr": "rate(service_http_request_duration_seconds_sum{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])\r\n/\r\nrate(service_http_request_duration_seconds_count{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ endpoint }}",
@@ -229,7 +229,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(service_http_request_size_bytes_sum{endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])\n/\nrate(service_http_request_size_bytes_count{endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
+          "expr": "rate(service_http_request_size_bytes_sum{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])\n/\nrate(service_http_request_size_bytes_count{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ endpoint }}",
@@ -316,7 +316,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(service_http_response_size_bytes_sum{endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])\n/\nrate(service_http_response_size_bytes_count{endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
+          "expr": "rate(service_http_response_size_bytes_sum{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])\n/\nrate(service_http_response_size_bytes_count{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ endpoint }}",
@@ -402,7 +402,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile($quantile, sum(rate(service_http_request_duration_seconds_bucket{endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])) by (le))",
+          "expr": "histogram_quantile($quantile, sum(rate(service_http_request_duration_seconds_bucket{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])) by (le))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ endpoint }}",
@@ -469,9 +469,9 @@
         "definition": "label_values(service_http_request_count_total, job)",
         "hide": 0,
         "includeAll": false,
-        "label": null,
+        "label": "Job",
         "multi": false,
-        "name": "Job",
+        "name": "job",
         "options": [],
         "query": "label_values(service_http_request_count_total, job)",
         "refresh": 1,
@@ -510,7 +510,7 @@
           "value": "1m"
         },
         "hide": 0,
-        "label": null,
+        "label": "Interval",
         "name": "interval",
         "options": [
           {
@@ -576,14 +576,14 @@
           "value": "$__all"
         },
         "datasource": "Prometheus",
-        "definition": "label_values(service_http_request_count_total{endpoint!~\"/metrics\"}, endpoint)",
+        "definition": "label_values(service_http_request_count_total{endpoint!~\"/metrics|/favicon.ico\"}, endpoint)",
         "hide": 0,
         "includeAll": true,
         "label": "Endpoint",
         "multi": false,
         "name": "endpoint",
         "options": [],
-        "query": "label_values(service_http_request_count_total{endpoint!~\"/metrics\"}, endpoint)",
+        "query": "label_values(service_http_request_count_total{endpoint!~\"/metrics|/favicon.ico\"}, endpoint)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -604,7 +604,7 @@
         "definition": "label_values(service_http_request_count_total, method)",
         "hide": 0,
         "includeAll": true,
-        "label": null,
+        "label": "Method",
         "multi": false,
         "name": "method",
         "options": [],
@@ -710,5 +710,5 @@
   "timezone": "browser",
   "title": "Prometheus Service",
   "uid": "EyaoypOZz",
-  "version": 4
+  "version": 5
 }
