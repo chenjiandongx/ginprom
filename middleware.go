@@ -15,6 +15,14 @@ const namespace = "service"
 var (
 	labels = []string{"status", "endpoint", "method"}
 
+	uptime = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Namespace: namespace,
+			Name:      "uptime",
+			Help:      "HTTP service uptime.",
+		}, nil,
+	)
+
 	reqCount = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Namespace: namespace,
@@ -50,7 +58,15 @@ var (
 
 // init registers the prometheus metrics
 func init() {
-	prometheus.MustRegister(reqCount, reqDuration, reqSizeBytes, respSizeBytes)
+	prometheus.MustRegister(uptime, reqCount, reqDuration, reqSizeBytes, respSizeBytes)
+	go recordUptime()
+}
+
+// recordUptime increases service uptime per second.
+func recordUptime() {
+	for range time.Tick(time.Second) {
+		uptime.WithLabelValues().Inc()
+	}
 }
 
 // calcRequestSize returns the size of request object.
