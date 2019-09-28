@@ -64,8 +64,7 @@ Details about exposed Prometheus metrics.
 
 Although Promethues offers a simple dashboard, Grafana is clearly a better choice. [Grafana configuration](./ginprom-service.json).
 
-![](https://user-images.githubusercontent.com/19553554/63159844-f01e2400-c04e-11e9-8b49-69ff3c3159cb.png)
-![](https://user-images.githubusercontent.com/19553554/63159842-eeecf700-c04e-11e9-8f6f-ad0d9dec89ad.png)
+![](https://user-images.githubusercontent.com/19553554/65812184-19a5a000-e1f6-11e9-8881-e0c260196bc9.png)
 
 
 ### 📃 LICENSE
