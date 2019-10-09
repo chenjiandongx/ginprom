@@ -27,17 +27,18 @@ func main() {
 	// ginprom.PromMiddleware() expects a ginprom.PromOpts{} poniter.
 	// It was used for filtering labels with regex. `nil` will pass every requests.
 	//
-	// ginprom labels: `status`, `endpoint`, `method`
+	// ginprom promethues-labels: 
+	//   `status`, `endpoint`, `method`
 	//
 	// for example:
 	// 1). I want not to record the 404 status request. That's easy for it.
 	// ginprom.PromMiddleware(&ginprom.PromOpts{ExcludeRegexStatus: "404"})
 	//
-	// 2). I want not to record the endpoint start with `/stupid`.
-	// ginprom.PromMiddleware(&ginprom.PromOpts{ExcludeRegexEndpoint: "^/stupid"})
+	// 2). And I wish ignore endpoint start with `/prefix`.
+	// ginprom.PromMiddleware(&ginprom.PromOpts{ExcludeRegexEndpoint: "^/prefix"})
 	r.Use(ginprom.PromMiddleware(nil))
 
-    // register the `/metrices` route.
+    // register the `/metrics` route.
 	r.GET("/metrics", ginprom.PromHandler(promhttp.Handler()))
 
     // your working routes
@@ -51,7 +52,7 @@ func main() {
 
 Details about exposed Prometheus metrics.
 
-| Name | Type | Exposed informations |
+| Name | Type | Exposed Information |
 | ---- | ---- | ---------------------|
 | service_uptime						| Counter	| HTTP service uptime. |
 | service_http_request_count_total		| Counter	| Total number of HTTP requests made. |
