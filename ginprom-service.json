@@ -81,7 +81,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "(time() - service_uptime) * 1000",
+          "expr": "(time() - service_uptime{job=~\"$job\"}) * 1000",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -254,7 +254,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "service_uptime",
+          "expr": "service_uptime{job=~\"$job\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
