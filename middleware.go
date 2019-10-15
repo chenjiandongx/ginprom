@@ -111,7 +111,7 @@ func (po *PromOpts) checkLabel(label, pattern string) bool {
 		return true
 	}
 
-	matched, err := regexp.MatchString(label, po.ExcludeRegexEndpoint)
+	matched, err := regexp.MatchString(label, pattern)
 	if err != nil {
 		return true
 	}
