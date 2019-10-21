@@ -750,7 +750,7 @@
         },
         "datasource": "$datasource",
         "definition": "label_values(service_http_request_count_total{endpoint!~\"/metrics\", status!=\"404\"}, endpoint)",
-        "hide": 0,
+        "hide": 2,
         "includeAll": true,
         "label": "Endpoint",
         "multi": false,
