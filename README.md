@@ -21,7 +21,7 @@ import (
 )
 
 func main() {
-    r := gin.Default()
+ 	r := gin.Default()
 	// use prometheus metrics exporter middleware.
 	//
 	// ginprom.PromMiddleware() expects a ginprom.PromOpts{} poniter.
@@ -34,14 +34,14 @@ func main() {
 	// 1). I want not to record the 404 status request. That's easy for it.
 	// ginprom.PromMiddleware(&ginprom.PromOpts{ExcludeRegexStatus: "404"})
 	//
-	// 2). And I wish ignore endpoint start with `/prefix`.
+	// 2). And I wish to ignore endpoint start with `/prefix`.
 	// ginprom.PromMiddleware(&ginprom.PromOpts{ExcludeRegexEndpoint: "^/prefix"})
 	r.Use(ginprom.PromMiddleware(nil))
 
-    // register the `/metrics` route.
+ 	// register the `/metrics` route.
 	r.GET("/metrics", ginprom.PromHandler(promhttp.Handler()))
 
-    // your working routes
+  // your working routes
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "home"})
     })
