@@ -95,7 +95,7 @@ func calcRequestSize(r *http.Request) float64 {
 }
 
 // PromOpts represents the Prometheus middleware Options.
-// It was used for filtering labels with regex.
+// It is used for filtering labels by regex.
 type PromOpts struct {
 	ExcludeRegexStatus   string
 	ExcludeRegexEndpoint string
