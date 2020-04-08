@@ -34,7 +34,7 @@ func main() {
 	// 1). I don't want to record the 404 status request. That's easy for it.
 	// ginprom.PromMiddleware(&ginprom.PromOpts{ExcludeRegexStatus: "404"})
 	//
-	// 2). And I wish to ignore endpoints which are starting with `/prefix`.
+	// 2). And I wish to ignore endpoints started with `/prefix`.
 	// ginprom.PromMiddleware(&ginprom.PromOpts{ExcludeRegexEndpoint: "^/prefix"})
 	r.Use(ginprom.PromMiddleware(nil))
 
@@ -44,7 +44,7 @@ func main() {
  	// your working routes
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "home"})
-    })
+ 	})
 }
 ```
 
