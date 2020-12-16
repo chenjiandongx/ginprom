@@ -94,15 +94,26 @@ func calcRequestSize(r *http.Request) float64 {
 	return float64(size)
 }
 
+type RequestLabelMappingFn func(c *gin.Context) string
+
 // PromOpts represents the Prometheus middleware Options.
 // It is used for filtering labels by regex.
 type PromOpts struct {
-	ExcludeRegexStatus   string
-	ExcludeRegexEndpoint string
-	ExcludeRegexMethod   string
+	ExcludeRegexStatus     string
+	ExcludeRegexEndpoint   string
+	ExcludeRegexMethod     string
+	EndpointLabelMappingFn RequestLabelMappingFn
 }
 
-var defaultPromOpts = &PromOpts{}
+// NewDefaultOpts return the default ProOpts
+func NewDefaultOpts() *PromOpts {
+	return &PromOpts{
+		EndpointLabelMappingFn: func(c *gin.Context) string {
+			//by default do nothing, return URL as is
+			return c.Request.URL.Path
+		},
+	}
+}
 
 // checkLabel returns the match result of labels.
 // Return true if regex-pattern compiles failed.
@@ -122,7 +133,13 @@ func (po *PromOpts) checkLabel(label, pattern string) bool {
 func PromMiddleware(promOpts *PromOpts) gin.HandlerFunc {
 	// make sure promOpts is not nil
 	if promOpts == nil {
-		promOpts = defaultPromOpts
+		promOpts = NewDefaultOpts()
+	}
+	// suport older usage way
+	if promOpts.EndpointLabelMappingFn == nil {
+		promOpts.EndpointLabelMappingFn = func(c *gin.Context) string {
+			return c.Request.URL.Path
+		}
 	}
 
 	return func(c *gin.Context) {
@@ -130,7 +147,7 @@ func PromMiddleware(promOpts *PromOpts) gin.HandlerFunc {
 		c.Next()
 
 		status := fmt.Sprintf("%d", c.Writer.Status())
-		endpoint := c.Request.URL.Path
+		endpoint := promOpts.EndpointLabelMappingFn(c)
 		method := c.Request.Method
 
 		lvs := []string{status, endpoint, method}
@@ -142,11 +159,15 @@ func PromMiddleware(promOpts *PromOpts) gin.HandlerFunc {
 		if !isOk {
 			return
 		}
-
+		// no response content will return -1
+		respSize := c.Writer.Size()
+		if respSize < 0 {
+			respSize = 0
+		}
 		reqCount.WithLabelValues(lvs...).Inc()
 		reqDuration.WithLabelValues(lvs...).Observe(time.Since(start).Seconds())
 		reqSizeBytes.WithLabelValues(lvs...).Observe(calcRequestSize(c.Request))
-		respSizeBytes.WithLabelValues(lvs...).Observe(float64(c.Writer.Size()))
+		respSizeBytes.WithLabelValues(lvs...).Observe(float64(respSize))
 	}
 }
 
@@ -156,3 +177,4 @@ func PromHandler(handler http.Handler) gin.HandlerFunc {
 		handler.ServeHTTP(c.Writer, c.Request)
 	}
 }
+
