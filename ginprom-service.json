@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 7,
-  "iteration": 1569654029911,
+  "id": 242,
+  "iteration": 1608172494931,
   "links": [],
   "panels": [
     {
@@ -60,7 +60,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -110,12 +109,14 @@
       "datasource": "$datasource",
       "decimals": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 12,
         "w": 18,
         "x": 6,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "alignAsTable": true,
@@ -132,7 +133,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null as zero",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -145,8 +148,9 @@
         {
           "expr": "rate(service_http_request_count_total{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ endpoint }}",
+          "legendFormat": "{{ endpoint }}-{{method}}-{{status}}",
           "refId": "A"
         }
       ],
@@ -232,7 +236,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "pluginVersion": "6.2.1",
       "postfix": "",
       "postfixFontSize": "50%",
@@ -282,12 +285,14 @@
       "dashes": false,
       "datasource": "$datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 11,
         "w": 12,
         "x": 0,
         "y": 12
       },
+      "hiddenSeries": false,
       "id": 4,
       "legend": {
         "alignAsTable": true,
@@ -303,7 +308,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null as zero",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -316,8 +323,9 @@
         {
           "expr": "rate(service_http_request_size_bytes_sum{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])\n/\nrate(service_http_request_size_bytes_count{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ endpoint }}",
+          "legendFormat": "{{ endpoint }}-{{method}}-{{status}}",
           "refId": "A"
         }
       ],
@@ -341,7 +349,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -369,12 +377,14 @@
       "dashes": false,
       "datasource": "$datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 11,
         "w": 12,
         "x": 12,
         "y": 12
       },
+      "hiddenSeries": false,
       "id": 8,
       "legend": {
         "alignAsTable": true,
@@ -390,7 +400,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null as zero",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -403,8 +415,9 @@
         {
           "expr": "rate(service_http_request_duration_seconds_sum{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])\r\n/\r\nrate(service_http_request_duration_seconds_count{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ endpoint }}",
+          "legendFormat": "{{ endpoint }}-{{method}}-{{status}}",
           "refId": "A"
         }
       ],
@@ -428,7 +441,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "s",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -456,12 +469,14 @@
       "dashes": false,
       "datasource": "$datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 12,
         "w": 12,
         "x": 0,
         "y": 23
       },
+      "hiddenSeries": false,
       "id": 10,
       "legend": {
         "avg": true,
@@ -476,7 +491,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null as zero",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -489,6 +506,7 @@
         {
           "expr": "histogram_quantile($quantile, sum(rate(service_http_request_duration_seconds_bucket{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])) by (le))",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{ endpoint }}",
           "refId": "A"
@@ -514,7 +532,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "s",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -543,12 +561,14 @@
       "datasource": "$datasource",
       "description": "",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 12,
         "w": 12,
         "x": 12,
         "y": 23
       },
+      "hiddenSeries": false,
       "id": 6,
       "legend": {
         "alignAsTable": true,
@@ -564,7 +584,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null as zero",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -577,8 +599,9 @@
         {
           "expr": "rate(service_http_response_size_bytes_sum{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])\n/\nrate(service_http_response_size_bytes_count{job=~\"$job\", endpoint=~\"$endpoint\", method=~\"$method\", status=~\"$status\"}[$interval])",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ endpoint }}",
+          "legendFormat": "{{ endpoint }}-{{method}}-{{status}}",
           "refId": "A"
         }
       ],
@@ -602,7 +625,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -625,7 +648,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 18,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "Service"
@@ -642,6 +665,7 @@
         "definition": "label_values(service_http_request_count_total, job)",
         "hide": 0,
         "includeAll": false,
+        "index": -1,
         "label": "Job",
         "multi": false,
         "name": "job",
@@ -679,6 +703,7 @@
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
+          "selected": false,
           "text": "1m",
           "value": "1m"
         },
@@ -745,6 +770,7 @@
       {
         "allValue": null,
         "current": {
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -752,6 +778,7 @@
         "definition": "label_values(service_http_request_count_total{endpoint!~\"/metrics\", status!=\"404\", job=~\"$job\"}, endpoint)",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Endpoint",
         "multi": false,
         "name": "endpoint",
@@ -777,6 +804,7 @@
         "definition": "label_values(service_http_request_count_total, method)",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Method",
         "multi": false,
         "name": "method",
@@ -802,6 +830,7 @@
         "definition": "label_values(service_http_request_count_total, status)",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Status",
         "multi": false,
         "name": "status",
@@ -883,5 +912,8 @@
   "timezone": "browser",
   "title": "Prometheus Service",
   "uid": "EyaoypOZz",
-  "version": 18
+  "variables": {
+    "list": []
+  },
+  "version": 9
 }
