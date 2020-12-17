@@ -135,7 +135,8 @@ func PromMiddleware(promOpts *PromOpts) gin.HandlerFunc {
 	if promOpts == nil {
 		promOpts = NewDefaultOpts()
 	}
-	// suport older usage way
+
+	// make sure EndpointLabelMappingFn is callable
 	if promOpts.EndpointLabelMappingFn == nil {
 		promOpts.EndpointLabelMappingFn = func(c *gin.Context) string {
 			return c.Request.URL.Path
@@ -177,4 +178,3 @@ func PromHandler(handler http.Handler) gin.HandlerFunc {
 		handler.ServeHTTP(c.Writer, c.Request)
 	}
 }
-
