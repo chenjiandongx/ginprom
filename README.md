@@ -58,7 +58,7 @@ Details about exposed Prometheus metrics.
 | service_http_request_count_total		| Counter	| Total number of HTTP requests made. |
 | service_http_request_duration_seconds | Histogram | HTTP request latencies in seconds. |
 | service_http_request_size_bytes 		| Summary	| HTTP request sizes in bytes. |
-| service_http_response_size_bytes 		| Summary	|HTTP request sizes in bytes. |
+| service_http_response_size_bytes 		| Summary	|HTTP response sizes in bytes. |
 
 
 ### 📊 Grafana
