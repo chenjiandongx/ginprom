@@ -51,7 +51,7 @@ var (
 		prometheus.SummaryOpts{
 			Namespace: namespace,
 			Name:      "http_response_size_bytes",
-			Help:      "HTTP request sizes in bytes.",
+			Help:      "HTTP response sizes in bytes.",
 		}, labels,
 	)
 )
